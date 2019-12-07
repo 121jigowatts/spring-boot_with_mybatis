@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.mapper;
+package com.jigowatts.springboot_with_mybatis.domain.mapper;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.jigowatts.springboot_with_mybatis.controller;
 import java.util.List;
 
 import com.jigowatts.springboot_with_mybatis.domain.Message;
-import com.jigowatts.springboot_with_mybatis.mapper.MessageMapper;
+import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
