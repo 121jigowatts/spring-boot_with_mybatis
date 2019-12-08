@@ -6,14 +6,14 @@ import com.jigowatts.springboot_with_mybatis.domain.Message;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 /**
  * MessageMapper
  */
 @Mapper
 public interface MessageMapper {
-    @Select("SELECT text FROM messages ORDER BY id")
+    Message findOne(int id);
+    long count();
     List<Message> findAll();
     
     @Insert("INSERT INTO messages(text) VALUES(#{text})")
