@@ -3,9 +3,10 @@ package com.jigowatts.springboot_with_mybatis.controller;
 import java.util.List;
 
 import com.jigowatts.springboot_with_mybatis.domain.Message;
-import com.jigowatts.springboot_with_mybatis.mapper.MessageMapper;
+import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,8 +26,18 @@ public class MessagesController {
         return messageMapper.findAll();
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Message getMessageById(@PathVariable final int id) {
+        return messageMapper.findOne(id);
+    }
+
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    public long getMessageCount() {
+        return messageMapper.count();
+    }
+
     @RequestMapping(method = RequestMethod.POST)
-    public Message postMessages(@RequestBody Message message) {
+    public Message postMessages(@RequestBody final Message message) {
         messageMapper.create(message);
         return message;
     }
