@@ -25,4 +25,8 @@
         ORDER BY
             id
     </select>
+
+    <insert id="create" parameterType="com.jigowatts.springboot_with_mybatis.domain.Message">
+        INSERT INTO messages(text) VALUES(#{text})
+    </insert>
 </mapper>
