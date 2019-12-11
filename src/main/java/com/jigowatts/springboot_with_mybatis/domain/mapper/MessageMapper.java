@@ -16,4 +16,5 @@ public interface MessageMapper {
     List<Message> findAll();
     
     void create(Message message);
+    boolean update(Message message);
 }

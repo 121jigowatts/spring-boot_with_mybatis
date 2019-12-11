@@ -29,4 +29,11 @@
     <insert id="create" parameterType="com.jigowatts.springboot_with_mybatis.domain.Message">
         INSERT INTO messages(text) VALUES(#{text})
     </insert>
+    
+    <update id="update" parameterType="com.jigowatts.springboot_with_mybatis.domain.Message">
+        UPDATE messages SET
+            text = #{text}
+        WHERE
+            id = #{id}
+    </update>
 </mapper>

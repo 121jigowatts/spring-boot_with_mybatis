@@ -42,4 +42,9 @@ public class MessagesController {
         return message;
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    public Message putMessages(@RequestBody final Message message) {
+        messageMapper.update(message);
+        return message;
+    }
 }
