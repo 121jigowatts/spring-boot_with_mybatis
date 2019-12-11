@@ -17,4 +17,5 @@ public interface MessageMapper {
     
     void create(Message message);
     boolean update(Message message);
+    boolean delete(int id);
 }

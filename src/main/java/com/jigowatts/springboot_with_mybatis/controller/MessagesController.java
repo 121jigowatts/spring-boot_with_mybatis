@@ -6,11 +6,13 @@ import com.jigowatts.springboot_with_mybatis.domain.Message;
 import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * MessagesController
@@ -46,5 +48,11 @@ public class MessagesController {
     public Message putMessages(@RequestBody final Message message) {
         messageMapper.update(message);
         return message;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteMessages(@PathVariable final int id) {
+        messageMapper.delete(id);
     }
 }
