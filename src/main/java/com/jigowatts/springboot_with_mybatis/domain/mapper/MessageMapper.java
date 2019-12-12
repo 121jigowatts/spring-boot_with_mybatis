@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.jigowatts.springboot_with_mybatis.domain.Message;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -16,6 +15,7 @@ public interface MessageMapper {
     long count();
     List<Message> findAll();
     
-    @Insert("INSERT INTO messages(text) VALUES(#{text})")
-    int create(Message message);
+    void create(Message message);
+    boolean update(Message message);
+    boolean delete(int id);
 }
