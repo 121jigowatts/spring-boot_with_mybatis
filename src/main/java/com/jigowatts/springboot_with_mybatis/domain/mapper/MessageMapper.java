@@ -2,7 +2,7 @@ package com.jigowatts.springboot_with_mybatis.domain.mapper;
 
 import java.util.List;
 
-import com.jigowatts.springboot_with_mybatis.domain.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.Message;
 
 import org.apache.ibatis.annotations.Mapper;
 

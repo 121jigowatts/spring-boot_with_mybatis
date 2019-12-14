@@ -1,16 +1,21 @@
 package com.jigowatts.springboot_with_mybatis.controller;
 
+import java.net.URI;
 import java.util.List;
 
-import com.jigowatts.springboot_with_mybatis.domain.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.Message;
 import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
+import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
+import com.jigowatts.springboot_with_mybatis.service.MessagesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -22,6 +27,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class MessagesController {
     @Autowired
     MessageMapper messageMapper;
+
+    @Autowired
+    MessagesService messagesService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Message> getMessage() {
@@ -39,9 +47,18 @@ public class MessagesController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Message postMessages(@RequestBody final Message message) {
-        messageMapper.create(message);
-        return message;
+    public ResponseEntity<MessageResource> postMessages(@RequestBody final MessageResource newResource,
+            UriComponentsBuilder uriBuilder) {
+        Message newMessage = newResource.toEntity();
+        messagesService.create(newMessage);
+
+        URI resourceUri = uriBuilder
+            .path("messages/{id}")
+            .buildAndExpand(newMessage.getId())
+            .encode()
+            .toUri();
+
+        return ResponseEntity.created(resourceUri).build();
     }
 
     @RequestMapping(method = RequestMethod.PUT)

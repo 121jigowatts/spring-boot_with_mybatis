@@ -1,11 +1,13 @@
-package com.jigowatts.springboot_with_mybatis.domain;
+package com.jigowatts.springboot_with_mybatis.resource;
 
 import java.io.Serializable;
 
+import com.jigowatts.springboot_with_mybatis.domain.model.Message;
+
 /**
- * Message
+ * MessageResource
  */
-public class Message implements Serializable {
+public class MessageResource implements Serializable {
     /**
      *
      */
@@ -29,4 +31,10 @@ public class Message implements Serializable {
         this.text = text;
     }
 
+    public Message toEntity() {
+        Message entity = new Message();
+        entity.setId(this.id);
+        entity.setText(this.text);
+        return entity;
+    }
 }

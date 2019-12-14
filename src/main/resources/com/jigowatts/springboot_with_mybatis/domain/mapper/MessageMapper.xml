@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper">
-    <select id="findOne" parameterType="int" resultType="com.jigowatts.springboot_with_mybatis.domain.Message">
+    <select id="findOne" parameterType="int" resultType="com.jigowatts.springboot_with_mybatis.domain.model.Message">
         SELECT
             id,
             text
@@ -16,7 +15,7 @@
         SELECT COUNT(*) FROM messages
     </select>
 
-    <select id="findAll" resultType="com.jigowatts.springboot_with_mybatis.domain.Message">
+    <select id="findAll" resultType="com.jigowatts.springboot_with_mybatis.domain.model.Message">
         SELECT
             id,
             text
@@ -26,11 +25,11 @@
             id
     </select>
 
-    <insert id="create" parameterType="com.jigowatts.springboot_with_mybatis.domain.Message">
+    <insert id="create" parameterType="com.jigowatts.springboot_with_mybatis.domain.model.Message" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO messages(text) VALUES(#{text})
     </insert>
 
-    <update id="update" parameterType="com.jigowatts.springboot_with_mybatis.domain.Message">
+    <update id="update" parameterType="com.jigowatts.springboot_with_mybatis.domain.model.Message">
         UPDATE messages SET
             text = #{text}
         WHERE
