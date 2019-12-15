@@ -2,9 +2,9 @@ package com.jigowatts.springboot_with_mybatis.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
 import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
 import com.jigowatts.springboot_with_mybatis.service.MessagesService;
 
@@ -25,25 +25,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RestController
 @RequestMapping("messages")
 public class MessagesController {
-    @Autowired
-    MessageMapper messageMapper;
 
     @Autowired
     MessagesService messagesService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Message> getMessage() {
-        return messageMapper.findAll();
+    public List<MessageResource> getMessage() {
+        List<Message> messages = messagesService.findAll();
+        return messages.stream().map(message -> {
+            MessageResource resource = message.toResource();
+            return resource;
+        }).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Message getMessageById(@PathVariable final int id) {
-        return messageMapper.findOne(id);
+    public MessageResource getMessageById(@PathVariable final int id) {
+        Message message = messagesService.findById(id);
+        return message.toResource();
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.GET)
     public long getMessageCount() {
-        return messageMapper.count();
+        return messagesService.count();
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -52,24 +55,21 @@ public class MessagesController {
         Message newMessage = newResource.toEntity();
         messagesService.create(newMessage);
 
-        URI resourceUri = uriBuilder
-            .path("messages/{id}")
-            .buildAndExpand(newMessage.getId())
-            .encode()
-            .toUri();
+        URI resourceUri = uriBuilder.path("messages/{id}").buildAndExpand(newMessage.getId()).encode().toUri();
 
         return ResponseEntity.created(resourceUri).build();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Message putMessages(@RequestBody final Message message) {
-        messageMapper.update(message);
-        return message;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void putMessages(@RequestBody final MessageResource resource) {
+        Message message = resource.toEntity();
+        messagesService.update(message);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMessages(@PathVariable final int id) {
-        messageMapper.delete(id);
+        messagesService.delete(id);
     }
 }

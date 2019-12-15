@@ -1,5 +1,7 @@
 package com.jigowatts.springboot_with_mybatis.domain.model;
 
+import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
+
 /**
  * Message
  */
@@ -22,5 +24,11 @@ public class Message {
     public void setText(String text) {
         this.text = text;
     }
-    
+
+    public MessageResource toResource() {
+        MessageResource resource = new MessageResource();
+        resource.setId(this.id);
+        resource.setText(this.text);
+        return resource;
+    }
 }
