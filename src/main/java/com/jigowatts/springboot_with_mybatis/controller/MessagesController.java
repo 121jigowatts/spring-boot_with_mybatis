@@ -33,15 +33,16 @@ public class MessagesController {
     public List<MessageResource> getMessage() {
         List<Message> messages = messagesService.findAll();
         return messages.stream().map(message -> {
-            MessageResource resource = message.toResource();
-            return resource;
+            MessageResource resource = new MessageResource();
+            return resource.toResource(message);
         }).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public MessageResource getMessageById(@PathVariable final int id) {
         Message message = messagesService.findById(id);
-        return message.toResource();
+        MessageResource resource = new MessageResource();
+        return resource.toResource(message);
     }
 
     @RequestMapping(value = "/count", method = RequestMethod.GET)
