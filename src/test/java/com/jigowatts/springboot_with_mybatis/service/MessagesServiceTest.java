@@ -1,7 +1,6 @@
 package com.jigowatts.springboot_with_mybatis.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -13,8 +12,6 @@ import java.util.List;
 
 import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
