@@ -37,4 +37,11 @@ public class MessageResource implements Serializable {
         entity.setText(this.text);
         return entity;
     }
+
+    public MessageResource toResource(Message message) {
+        MessageResource resource = new MessageResource();
+        resource.setId(message.getId());
+        resource.setText(message.getText());
+        return resource;
+    }
 }
