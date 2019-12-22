@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.domain.mapper;
+package com.jigowatts.springboot_with_mybatis.repository;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * MessageMapper
  */
 @Mapper
-public interface MessageMapper {
+public interface MessageRepository {
     Message findOne(int id);
     long count();
     List<Message> findAll();

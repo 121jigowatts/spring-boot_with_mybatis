@@ -10,8 +10,9 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
+import com.jigowatts.springboot_with_mybatis.repository.MessageRepository;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class MessagesServiceTest {
 
     @Mock
-    MessageMapper messageMapper;
+    MessageRepository messageMapper;
 
     @InjectMocks
     MessagesService messagesService = new MessagesService();

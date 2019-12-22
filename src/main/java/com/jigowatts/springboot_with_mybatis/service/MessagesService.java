@@ -1,10 +1,9 @@
 package com.jigowatts.springboot_with_mybatis.service;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
+import com.jigowatts.springboot_with_mybatis.repository.MessageRepository;
 
 import java.util.List;
-
-import com.jigowatts.springboot_with_mybatis.domain.mapper.MessageMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MessagesService {
 
     @Autowired
-    MessageMapper messageMapper;
+    MessageRepository messageMapper;
 
     public List<Message> findAll() {
         return messageMapper.findAll();
