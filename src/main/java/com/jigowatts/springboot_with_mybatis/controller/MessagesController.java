@@ -73,4 +73,16 @@ public class MessagesController {
     public void deleteMessages(@PathVariable final int id) {
         messagesService.delete(id);
     }
+
+    @RequestMapping(value = "/runtimeexception", method = RequestMethod.GET)
+    public String get() {
+        throw new RuntimeException("Runtime Exception");
+
+    }
+
+    @RequestMapping(value = "/notfound", method = RequestMethod.GET)
+    public String notFound() {
+        throw new ResourceNotFoundException("Message is not found.");
+    }
+
 }
