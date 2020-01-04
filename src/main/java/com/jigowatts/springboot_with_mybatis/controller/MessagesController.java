@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
 import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
 import com.jigowatts.springboot_with_mybatis.service.MessagesService;
@@ -51,7 +53,7 @@ public class MessagesController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<MessageResource> postMessages(@RequestBody final MessageResource newResource,
+    public ResponseEntity<MessageResource> postMessages(@Valid @RequestBody final MessageResource newResource,
             UriComponentsBuilder uriBuilder) {
         Message newMessage = newResource.toEntity();
         messagesService.create(newMessage);
@@ -63,7 +65,7 @@ public class MessagesController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void putMessages(@RequestBody final MessageResource resource) {
+    public void putMessages(@Valid @RequestBody final MessageResource resource) {
         Message message = resource.toEntity();
         messagesService.update(message);
     }
@@ -73,4 +75,5 @@ public class MessagesController {
     public void deleteMessages(@PathVariable final int id) {
         messagesService.delete(id);
     }
+
 }

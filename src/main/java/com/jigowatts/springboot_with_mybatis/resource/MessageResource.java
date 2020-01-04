@@ -2,6 +2,8 @@ package com.jigowatts.springboot_with_mybatis.resource;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Size;
+
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
 
 /**
@@ -13,6 +15,7 @@ public class MessageResource implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     private int id;
+    @Size(max = 10)
     private String text;
 
     public int getId() {
