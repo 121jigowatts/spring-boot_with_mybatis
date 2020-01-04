@@ -32,7 +32,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
                 {
                     put(HttpMessageNotReadableException.class, "Request body is invalid.");
-                    put(MethodArgumentNotValidException.class, "Request value is invalid");
+                    put(MethodArgumentNotValidException.class, "Request value is invalid.");
                 }
             });
 
