@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
 import com.jigowatts.springboot_with_mybatis.repository.MessageRepository;
+import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,7 +32,7 @@ public class MessagesServiceTest {
     MessagesService messagesService = new MessagesService();
 
     @Test
-    public void findAllTest() {
+    public void findAllByCriteriaTest() {
         List<Message> expected = new ArrayList<Message>();
         // #1
         Message resource01 = new Message();
@@ -44,9 +45,11 @@ public class MessagesServiceTest {
         resource02.setText("bar");
         expected.add(resource02);
 
-        doReturn(expected).when(messageMapper).findAll();
+        MessageCriteria criteria = new MessageCriteria();
 
-        List<Message> actual = messagesService.findAll();
+        doReturn(expected).when(messageMapper).findAllByCriteria(criteria);
+
+        List<Message> actual = messagesService.findAllByCriteria(criteria);
         assertEquals(expected.size(), actual.size());
         assertEquals(expected.get(0).getId(), actual.get(0).getId());
         assertEquals(expected.get(0).getText(), actual.get(0).getText());

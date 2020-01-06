@@ -1,6 +1,7 @@
 package com.jigowatts.springboot_with_mybatis.repository;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
+import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,14 +57,16 @@ public class MessageRepositoryTest {
         expected.add(message02);
         Message message03 = new Message();
         message03.setId(3);
-        message03.setText("foo");
+        message03.setText("hana");
         expected.add(message03);
         Message message04 = new Message();
         message04.setId(4);
-        message04.setText("bar");
+        message04.setText("honey");
         expected.add(message04);
 
-        List<Message> actual = messageRepository.findAll();
+        MessageCriteria criteria = new MessageCriteria();
+        criteria.setText("h");
+        List<Message> actual = messageRepository.findAllByCriteria(criteria);
         assertThat(actual.size()).isEqualTo(expected.size());
     }
 

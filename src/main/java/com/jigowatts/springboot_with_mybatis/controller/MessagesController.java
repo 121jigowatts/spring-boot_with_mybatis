@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
+import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
 import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
+import com.jigowatts.springboot_with_mybatis.resource.MessageResourceQuery;
 import com.jigowatts.springboot_with_mybatis.service.MessagesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +34,12 @@ public class MessagesController {
     MessagesService messagesService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<MessageResource> getMessage() {
-        List<Message> messages = messagesService.findAll();
+    public List<MessageResource> searchMessages(@Valid MessageResourceQuery query) {
+        MessageCriteria criteria = new MessageCriteria();
+        criteria.setText(query.getText());
+
+        List<Message> messages = messagesService.findAllByCriteria(criteria);
+
         return messages.stream().map(message -> {
             MessageResource resource = new MessageResource();
             return resource.toResource(message);
