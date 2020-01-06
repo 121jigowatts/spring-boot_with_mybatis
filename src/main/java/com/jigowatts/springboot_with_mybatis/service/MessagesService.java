@@ -2,6 +2,7 @@ package com.jigowatts.springboot_with_mybatis.service;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
 import com.jigowatts.springboot_with_mybatis.repository.MessageRepository;
+import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
 
 import java.util.List;
 
@@ -15,32 +16,32 @@ import org.springframework.stereotype.Service;
 public class MessagesService {
 
     @Autowired
-    MessageRepository messageMapper;
+    MessageRepository messageRepository;
 
-    public List<Message> findAll() {
-        return messageMapper.findAll();
+    public List<Message> findAllByCriteria(MessageCriteria criteria) {
+        return messageRepository.findAllByCriteria(criteria);
     }
 
     public Message findById(int id) {
-        return messageMapper.findOne(id);
+        return messageRepository.findOne(id);
     }
 
     public long count() {
-        return messageMapper.count();
+        return messageRepository.count();
     }
 
     public Message create(Message message) {
-        messageMapper.create(message);
+        messageRepository.create(message);
         return message;
     }
 
     public Message update(Message message) {
-        messageMapper.update(message);
+        messageRepository.update(message);
         return message;
     }
 
     public boolean delete(int id) {
-        return messageMapper.delete(id);
+        return messageRepository.delete(id);
     }
 
 }

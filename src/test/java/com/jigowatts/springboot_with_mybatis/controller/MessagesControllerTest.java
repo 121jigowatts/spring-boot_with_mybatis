@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
+import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
 import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
 import com.jigowatts.springboot_with_mybatis.service.MessagesService;
 
@@ -48,8 +49,9 @@ public class MessagesControllerTest {
     }
 
     @Test
-    public void getMessageTest() throws Exception {
-        doReturn(new ArrayList<MessageResource>()).when(messagesService).findAll();
+    public void searchMessagesTest() throws Exception {
+        MessageCriteria criteria = new MessageCriteria();
+        doReturn(new ArrayList<MessageResource>()).when(messagesService).findAllByCriteria(criteria);
 
         MockHttpServletRequestBuilder getRequest = MockMvcRequestBuilders.get("/messages");
 

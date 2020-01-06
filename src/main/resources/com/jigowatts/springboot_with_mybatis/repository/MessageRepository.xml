@@ -15,12 +15,17 @@
         SELECT COUNT(*) FROM messages
     </select>
 
-    <select id="findAll" resultType="com.jigowatts.springboot_with_mybatis.domain.model.Message">
+    <select id="findAllByCriteria" resultType="com.jigowatts.springboot_with_mybatis.domain.model.Message">
         SELECT
             id,
             text
         FROM
             messages
+        <where>
+            <if test="text != null">
+                AND text LIKE #{text} || '%'
+            </if>
+        </where>
         ORDER BY
             id
     </select>
