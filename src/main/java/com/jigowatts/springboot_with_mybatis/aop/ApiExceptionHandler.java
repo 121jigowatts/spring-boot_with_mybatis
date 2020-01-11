@@ -7,6 +7,9 @@ import java.util.Map;
 import com.jigowatts.springboot_with_mybatis.controller.ApiError;
 import com.jigowatts.springboot_with_mybatis.controller.ResourceNotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  */
 @RestControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @Autowired
+    MessageSource messageSource;
 
     private final Map<Class<? extends Exception>, String> messageMappings = Collections
             .unmodifiableMap(new LinkedHashMap<Class<? extends Exception>, String>() {
@@ -54,6 +60,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ApiError apiError = createApiError(ex, ex.getMessage());
         return super.handleExceptionInternal(ex, apiError, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+            HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ApiError apiError = createApiError(ex, ex.getMessage());
+        ex.getBindingResult().getGlobalErrors().stream()
+                .forEach(e -> apiError.addDetail(e.getObjectName(), getMessage(e, request)));
+        ex.getBindingResult().getFieldErrors().stream()
+                .forEach(e -> apiError.addDetail(e.getField(), getMessage(e, request)));
+        return super.handleExceptionInternal(ex, apiError, headers, status, request);
+    }
+
+    private String getMessage(MessageSourceResolvable resolvable, WebRequest request) {
+        return messageSource.getMessage(resolvable, request.getLocale());
     }
 
     private ApiError createApiError(Exception ex, String defaultMessage) {
