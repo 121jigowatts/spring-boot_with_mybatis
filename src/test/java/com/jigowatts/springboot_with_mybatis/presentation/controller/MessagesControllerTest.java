@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.domain.model.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
 import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResource;
 import com.jigowatts.springboot_with_mybatis.application.service.MessagesService;
 

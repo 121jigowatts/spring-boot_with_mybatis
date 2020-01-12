@@ -10,9 +10,9 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.domain.model.MessageCriteria;
-import com.jigowatts.springboot_with_mybatis.infrastructure.repository.MessageRepository;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.infrastructure.repository.MessageImplRepository;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,7 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class MessagesServiceTest {
 
     @Mock
-    MessageRepository messageMapper;
+    MessageImplRepository messageRepository;
 
     @InjectMocks
     MessagesService messagesService = new MessagesService();
@@ -47,7 +47,7 @@ public class MessagesServiceTest {
 
         MessageCriteria criteria = new MessageCriteria();
 
-        doReturn(expected).when(messageMapper).findAllByCriteria(criteria);
+        doReturn(expected).when(messageRepository).findAllByCriteria(criteria);
 
         List<Message> actual = messagesService.findAllByCriteria(criteria);
         assertEquals(expected.size(), actual.size());
@@ -63,7 +63,7 @@ public class MessagesServiceTest {
         Message expected = new Message();
         expected.setId(1);
         expected.setText("hoge");
-        doReturn(expected).when(messageMapper).findOne(anyInt());
+        doReturn(expected).when(messageRepository).findOne(anyInt());
 
         Message actual = messagesService.findById(1);
         assertEquals(expected, actual);
@@ -72,7 +72,7 @@ public class MessagesServiceTest {
     @Test
     public void countTest() {
         long expected = 5;
-        doReturn(expected).when(messageMapper).count();
+        doReturn(expected).when(messageRepository).count();
 
         long actual = messagesService.count();
         assertEquals(expected, actual);
@@ -84,16 +84,16 @@ public class MessagesServiceTest {
         newMessage.setId(0);
         newMessage.setText("hoge");
 
-        doNothing().when(messageMapper).create(newMessage);
+        doNothing().when(messageRepository).create(newMessage);
 
         messagesService.create(newMessage);
-        verify(messageMapper, times(1)).create(newMessage);
+        verify(messageRepository, times(1)).create(newMessage);
     }
 
     @Test
     public void updateTest() {
         Message expected = new Message();
-        doReturn(true).when(messageMapper).update(expected);
+        doReturn(true).when(messageRepository).update(expected);
 
         Message actual = messagesService.update(expected);
         assertEquals(expected, actual);
@@ -102,7 +102,7 @@ public class MessagesServiceTest {
     @Test
     public void deleteTest() {
         boolean expected = true;
-        doReturn(expected).when(messageMapper).delete(anyInt());
+        doReturn(expected).when(messageRepository).delete(anyInt());
         boolean actual = messagesService.delete(1);
         assertEquals(expected, actual);
     }

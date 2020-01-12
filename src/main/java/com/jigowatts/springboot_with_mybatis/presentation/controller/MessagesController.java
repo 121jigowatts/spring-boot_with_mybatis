@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.jigowatts.springboot_with_mybatis.application.service.MessagesService;
-import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.domain.model.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
 import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResource;
 import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResourceQuery;
 

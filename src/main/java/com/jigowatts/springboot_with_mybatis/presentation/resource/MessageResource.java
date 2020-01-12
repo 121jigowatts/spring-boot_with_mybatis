@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Size;
 
-import com.jigowatts.springboot_with_mybatis.domain.model.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 
 /**
  * MessageResource
