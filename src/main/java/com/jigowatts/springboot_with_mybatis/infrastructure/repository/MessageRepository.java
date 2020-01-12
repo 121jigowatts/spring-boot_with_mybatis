@@ -1,9 +1,9 @@
-package com.jigowatts.springboot_with_mybatis.repository;
+package com.jigowatts.springboot_with_mybatis.infrastructure.repository;
 
 import java.util.List;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.domain.model.MessageCriteria;
 
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.controller;
+package com.jigowatts.springboot_with_mybatis.presentation.controller;
 
 /**
  * ResourceNotFoundException

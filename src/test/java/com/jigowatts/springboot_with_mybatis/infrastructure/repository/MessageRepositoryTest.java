@@ -1,7 +1,7 @@
-package com.jigowatts.springboot_with_mybatis.repository;
+package com.jigowatts.springboot_with_mybatis.infrastructure.repository;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.domain.model.MessageCriteria;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ public class MessageRepositoryTest {
     }
     
     @Test
-    @Sql(scripts = "/com/jigowatts/springboot_with_mybatis/repository/MessageRepositoryTest.sql")
+    @Sql(scripts = "/com/jigowatts/springboot_with_mybatis/infrastructure/repository/MessageRepositoryTest.sql")
     public void findAllTest() {
         List<Message> expected = new ArrayList<Message>();
         

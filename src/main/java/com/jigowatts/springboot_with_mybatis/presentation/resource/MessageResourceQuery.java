@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.resource;
+package com.jigowatts.springboot_with_mybatis.presentation.resource;
 
 import java.io.Serializable;
 

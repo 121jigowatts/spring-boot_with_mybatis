@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.jigowatts.springboot_with_mybatis.controller.ApiError;
-import com.jigowatts.springboot_with_mybatis.controller.ResourceNotFoundException;
+import com.jigowatts.springboot_with_mybatis.presentation.controller.ApiError;
+import com.jigowatts.springboot_with_mybatis.presentation.controller.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

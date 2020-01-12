@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.service;
+package com.jigowatts.springboot_with_mybatis.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.repository.MessageRepository;
-import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.domain.model.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.infrastructure.repository.MessageRepository;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

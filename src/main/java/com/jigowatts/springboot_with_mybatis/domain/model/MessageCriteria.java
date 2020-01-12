@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.resource;
+package com.jigowatts.springboot_with_mybatis.domain.model;
 
 import java.io.Serializable;
 
