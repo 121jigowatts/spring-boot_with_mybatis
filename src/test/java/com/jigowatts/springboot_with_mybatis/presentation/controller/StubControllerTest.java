@@ -1,10 +1,10 @@
-package com.jigowatts.springboot_with_mybatis.controller;
+package com.jigowatts.springboot_with_mybatis.presentation.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
+import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResource;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

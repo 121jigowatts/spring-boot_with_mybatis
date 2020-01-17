@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.controller;
+package com.jigowatts.springboot_with_mybatis.presentation.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
-import com.jigowatts.springboot_with_mybatis.resource.MessageResource;
-import com.jigowatts.springboot_with_mybatis.resource.MessageResourceQuery;
-import com.jigowatts.springboot_with_mybatis.service.MessagesService;
+import com.jigowatts.springboot_with_mybatis.application.service.MessagesService;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResource;
+import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResourceQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

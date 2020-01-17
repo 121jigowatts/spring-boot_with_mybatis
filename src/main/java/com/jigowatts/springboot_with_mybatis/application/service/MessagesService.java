@@ -1,8 +1,8 @@
-package com.jigowatts.springboot_with_mybatis.service;
+package com.jigowatts.springboot_with_mybatis.application.service;
 
-import com.jigowatts.springboot_with_mybatis.domain.model.Message;
-import com.jigowatts.springboot_with_mybatis.repository.MessageRepository;
-import com.jigowatts.springboot_with_mybatis.resource.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
+import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
+import com.jigowatts.springboot_with_mybatis.infrastructure.repository.MessageImplRepository;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class MessagesService {
 
     @Autowired
-    MessageRepository messageRepository;
+    MessageImplRepository messageRepository;
 
     public List<Message> findAllByCriteria(MessageCriteria criteria) {
         return messageRepository.findAllByCriteria(criteria);
