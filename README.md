@@ -33,3 +33,9 @@ psql -U admin
 ```sh
 docker-compose stop
 ```
+
+### Dockerコンテナの停止 / 削除
+
+```sh
+docker-compose down
+```

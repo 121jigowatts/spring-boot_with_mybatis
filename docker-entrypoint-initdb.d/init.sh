@@ -8,4 +8,6 @@ CREATE TABLE IF NOT EXISTS messages (
   text      VARCHAR(255)
 );
 
+INSERT INTO messages(text) VALUES('hello postgres');
+
 EOSQL
