@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +19,7 @@ import java.util.List;
  * MessageMapperTest
  */
 @MybatisTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // @MybatisTestを付与するとデフォルトで組み込みデータベースを使用する設定となる
 public class MessageMapperTest {
 
     @Autowired
@@ -27,7 +29,7 @@ public class MessageMapperTest {
     public void findOneTest() {
         Message expected = new Message();
         expected.setId(1);
-        expected.setText("hello");
+        expected.setText("hello postgres");
         Message actual = messageMapper.findOne(1);
 
         assertThat(actual.getId()).isEqualTo(expected.getId());
