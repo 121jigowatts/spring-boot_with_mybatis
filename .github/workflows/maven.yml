@@ -13,5 +13,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 12
+    - name: Docker set up
+      run: docker-compose up -d
     - name: Build with Maven
       run: mvn -B package --file pom.xml
