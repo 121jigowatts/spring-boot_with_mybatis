@@ -6,6 +6,7 @@ package com.jigowatts.springboot_with_mybatis.domain.model.message;
 public class Message {
     private int id;
     private String text;
+    private String jsonbValue;
 
     public int getId() {
         return this.id;
@@ -21,6 +22,14 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getJsonbValue() {
+        return this.jsonbValue;
+    }
+
+    public void setJsonbValue(String jsonbValue) {
+        this.jsonbValue = jsonbValue;
     }
 
 }
