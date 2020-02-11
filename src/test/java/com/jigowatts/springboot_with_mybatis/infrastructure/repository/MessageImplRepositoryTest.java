@@ -36,12 +36,14 @@ public class MessageImplRepositoryTest {
         Message expected = new Message();
         expected.setId(1);
         expected.setText("hello");
+        expected.setJsonbValue("{\"id\":\"001\"}");
         doReturn(expected).when(messageMapper).findOne(1);
 
         Message actual = messageRepository.findOne(1);
 
         assertThat(actual.getId()).isEqualTo(expected.getId());
         assertThat(actual.getText()).isEqualTo(expected.getText());
+        assertThat(actual.getJsonbValue()).isEqualTo(expected.getJsonbValue());
     }
 
     @Test
@@ -60,18 +62,22 @@ public class MessageImplRepositoryTest {
         Message message01 = new Message();
         message01.setId(1);
         message01.setText("hello");
+        message01.setJsonbValue("{\"id\":\"001\"}");
         expected.add(message01);
         Message message02 = new Message();
         message02.setId(2);
         message02.setText("hoge");
+        message02.setJsonbValue("{\"id\":\"002\"}");
         expected.add(message02);
         Message message03 = new Message();
         message03.setId(3);
         message03.setText("hana");
+        message03.setJsonbValue("{\"id\":\"003\"}");
         expected.add(message03);
         Message message04 = new Message();
         message04.setId(4);
         message04.setText("honey");
+        message04.setJsonbValue("{\"id\":\"004\"}");
         expected.add(message04);
 
         MessageCriteria criteria = new MessageCriteria();
