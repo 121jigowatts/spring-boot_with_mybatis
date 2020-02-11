@@ -33,6 +33,12 @@
             <if test="text != null">
                 AND text LIKE #{text} || '%'
             </if>
+            <if test="dbName != null">
+                AND jsonb_value->>'database_name' LIKE #{dbName} || '%'
+            </if>
+            <if test="schemaName != null">
+                AND jsonb_value->'schemas' @> #{schemaName}
+            </if>
         </where>
         ORDER BY
             id
