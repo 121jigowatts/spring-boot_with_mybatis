@@ -22,10 +22,11 @@
         SELECT COUNT(*) FROM messages
     </select>
 
-    <select id="findAllByCriteria" resultType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message">
+    <select id="findAllByCriteria" resultMap="messageResultMap">
         SELECT
             id,
-            text
+            text,
+            jsonb_value
         FROM
             messages
         <where>

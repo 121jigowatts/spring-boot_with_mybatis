@@ -17,7 +17,8 @@ public class Database implements Serializable {
     private int key;
     @JsonProperty("database_name")
     private String databaseName;
-    // List<Schema> schemas;
+    @JsonProperty("schemas")
+    List<Schema> schemas;
 
     public Database() {
 
@@ -26,7 +27,7 @@ public class Database implements Serializable {
     public Database(int key, String databaseName, List<Schema> schemas) {
         this.key = key;
         this.databaseName = databaseName;
-        // this.schemas = schemas;
+        this.schemas = schemas;
     }
 
     public int getKey() {
@@ -45,11 +46,11 @@ public class Database implements Serializable {
         this.databaseName = databaseName;
     }
 
-    // public List<Schema> getSchemas() {
-    // return this.schemas;
-    // }
+    public List<Schema> getSchemas() {
+    return this.schemas;
+    }
 
-    // public void setSchemas(List<Schema> schemas) {
-    // this.schemas = schemas;
-    // }
+    public void setSchemas(List<Schema> schemas) {
+    this.schemas = schemas;
+    }
 }

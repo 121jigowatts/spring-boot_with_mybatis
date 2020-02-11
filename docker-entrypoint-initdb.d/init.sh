@@ -14,7 +14,15 @@ INSERT INTO messages (
   jsonb_value
 ) VALUES (
   'hello postgres',
-  json_build_object('key', 1, 'database_name', 'PostgreSQL')
+  json_build_object('key', 1, 'database_name', 'PostgreSQL',
+    'schemas', json_build_array(json_build_object('schema_name', 'schema01',
+      'tables', json_build_array(
+          json_build_object('table_name','users','columns', json_build_array(json_build_object('column_name','id','sort_order',1),json_build_object('column_name','name','sort_order',2),json_build_object('column_name','age','sort_order',3))),
+          json_build_object('table_name','products','columns',json_build_array(json_build_object('column_name','id','sort_order',1),json_build_object('column_name','name','sort_order',2),json_build_object('column_name','price','sort_order',3)))
+        )
+      )
+    )
+  )
 );
 
 EOSQL
