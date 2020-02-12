@@ -3,19 +3,19 @@ package com.jigowatts.springboot_with_mybatis.domain.model.message;
 import java.io.Serializable;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 /**
  * Schema
  */
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Schema implements Serializable {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    @JsonProperty("schema_name")
     private String schemaName;
-    @JsonProperty("tables")
     private List<Table> tables;
 
     public Schema() {
@@ -36,10 +36,10 @@ public class Schema implements Serializable {
     }
 
     public List<Table> getTables() {
-    return this.tables;
+        return this.tables;
     }
 
     public void setTables(List<Table> tables) {
-    this.tables = tables;
+        this.tables = tables;
     }
 }

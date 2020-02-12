@@ -6,6 +6,8 @@ import java.io.Serializable;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Database;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 import com.jigowatts.springboot_with_mybatis.util.json.JsonConverter;
@@ -13,6 +15,7 @@ import com.jigowatts.springboot_with_mybatis.util.json.JsonConverter;
 /**
  * MessageResource
  */
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class MessageResource implements Serializable {
     /**
      *

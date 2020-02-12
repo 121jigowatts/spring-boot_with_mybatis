@@ -45,7 +45,7 @@
     </select>
 
     <insert id="create" parameterType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO messages(text) VALUES(#{text})
+        INSERT INTO messages(text, jsonb_value) VALUES(#{text}, #{jsonbValue})
     </insert>
 
     <update id="update" parameterType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message">

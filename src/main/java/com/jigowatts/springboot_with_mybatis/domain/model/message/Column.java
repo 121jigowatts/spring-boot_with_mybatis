@@ -2,19 +2,19 @@ package com.jigowatts.springboot_with_mybatis.domain.model.message;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 /**
  * column
  */
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class Column implements Serializable {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    @JsonProperty("column_name")
     private String columnName;
-    @JsonProperty("sort_order")
     private int sortOrder;
 
     public Column() {
