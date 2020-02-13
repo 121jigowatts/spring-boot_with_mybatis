@@ -50,7 +50,8 @@
 
     <update id="update" parameterType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message">
         UPDATE messages SET
-            text = #{text}
+            text = #{text},
+            jsonb_value = #{jsonbValue}
         WHERE
             id = #{id}
     </update>

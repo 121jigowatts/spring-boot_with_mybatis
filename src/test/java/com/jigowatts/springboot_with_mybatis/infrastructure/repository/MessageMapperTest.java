@@ -123,6 +123,7 @@ public class MessageMapperTest {
     public void createTest() {
         Message message = new Message();
         message.setText("fizz");
+        message.setJsonbValue("{}");
         messageMapper.create(message);
 
         assertThat(messageMapper.count()).isEqualTo(2L);
@@ -133,6 +134,7 @@ public class MessageMapperTest {
         Message message = new Message();
         message.setId(1);
         message.setText("fizzbuzz");
+        message.setJsonbValue("{}");
         boolean actual = messageMapper.update(message);
 
         assertThat(actual).isTrue();

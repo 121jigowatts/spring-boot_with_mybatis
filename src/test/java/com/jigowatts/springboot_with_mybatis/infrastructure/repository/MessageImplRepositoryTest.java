@@ -91,6 +91,7 @@ public class MessageImplRepositoryTest {
     public void createTest() {
         Message message = new Message();
         message.setText("fizz");
+        message.setJsonbValue("{\"id\":\"001\"}");
         doNothing().when(messageMapper).create(message);
 
         messageRepository.create(message);
@@ -103,6 +104,7 @@ public class MessageImplRepositoryTest {
         Message message = new Message();
         message.setId(1);
         message.setText("fizzbuzz");
+        message.setJsonbValue("{\"id\":\"001\"}");
         doReturn(true).when(messageMapper).update(message);
 
         boolean actual = messageRepository.update(message);
