@@ -37,6 +37,8 @@ public class MessagesController {
     public List<MessageResource> searchMessages(@Valid MessageResourceQuery query) {
         MessageCriteria criteria = new MessageCriteria();
         criteria.setText(query.getText());
+        criteria.setDbName(query.getDatabase());
+        criteria.setSchemaName(query.getSchema());
 
         List<Message> messages = messagesService.findAllByCriteria(criteria);
 

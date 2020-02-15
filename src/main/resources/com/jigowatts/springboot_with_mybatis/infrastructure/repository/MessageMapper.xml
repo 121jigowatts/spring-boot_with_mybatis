@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jigowatts.springboot_with_mybatis.infrastructure.repository.MessageMapper">
-    <select id="findOne" parameterType="int" resultType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message">
+
+    <resultMap id="messageResultMap" type="com.jigowatts.springboot_with_mybatis.domain.model.message.Message">
+        <id column="id" property="id" />
+        <result column="text" property="text" />
+        <result column="jsonb_value" property="jsonbValue" />
+    </resultMap>
+    <select id="findOne" parameterType="int" resultMap="messageResultMap">
         SELECT
             id,
-            text
+            text,
+            jsonb_value
         FROM
             messages
         WHERE
@@ -15,15 +22,22 @@
         SELECT COUNT(*) FROM messages
     </select>
 
-    <select id="findAllByCriteria" resultType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message">
+    <select id="findAllByCriteria" resultMap="messageResultMap">
         SELECT
             id,
-            text
+            text,
+            jsonb_value
         FROM
             messages
         <where>
             <if test="text != null">
                 AND text LIKE #{text} || '%'
+            </if>
+            <if test="dbName != null">
+                AND jsonb_value->>'database_name' LIKE #{dbName} || '%'
+            </if>
+            <if test="schemaName != null">
+                AND jsonb_value->'schemas' @> #{schemaName}
             </if>
         </where>
         ORDER BY
@@ -31,12 +45,13 @@
     </select>
 
     <insert id="create" parameterType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO messages(text) VALUES(#{text})
+        INSERT INTO messages(text, jsonb_value) VALUES(#{text}, #{jsonbValue})
     </insert>
 
     <update id="update" parameterType="com.jigowatts.springboot_with_mybatis.domain.model.message.Message">
         UPDATE messages SET
-            text = #{text}
+            text = #{text},
+            jsonb_value = #{jsonbValue}
         WHERE
             id = #{id}
     </update>
