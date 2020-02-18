@@ -9,6 +9,11 @@ CREATE TABLE IF NOT EXISTS messages (
   jsonb_value JSONB
 );
 
+CREATE TABLE IF NOT EXISTS users (
+  id          VARCHAR(32) PRIMARY KEY,
+  name        VARCHAR(255)
+);
+
 INSERT INTO messages (
   text,
   jsonb_value
@@ -24,5 +29,7 @@ INSERT INTO messages (
     )
   )
 );
+
+INSERT INTO users (id,name) VALUES ('1','Alice');
 
 EOSQL
