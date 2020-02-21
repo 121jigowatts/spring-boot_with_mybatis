@@ -2,6 +2,9 @@ package com.jigowatts.springboot_with_mybatis.domain.model.message;
 
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * MessageCriteria
  */
@@ -10,25 +13,16 @@ public class MessageCriteria implements Serializable {
      *
      */
     private static final long serialVersionUID = 1L;
+    @Getter
+    @Setter
     private String text;
+
+    @Getter
+    @Setter
     private String dbName;
+
+    @Setter
     private String schemaName;
-
-    public String getText() {
-        return this.text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getDbName() {
-        return this.dbName;
-    }
-
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
-    }
 
     public String getSchemaName() {
         if (this.schemaName != null) {
@@ -37,7 +31,4 @@ public class MessageCriteria implements Serializable {
         return this.schemaName;
     }
 
-    public void setSchemaName(String schemaName) {
-        this.schemaName = schemaName;
-    }
 }

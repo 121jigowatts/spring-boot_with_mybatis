@@ -6,10 +6,17 @@ import java.util.List;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * Table
  */
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Table implements Serializable {
     /**
      *
@@ -18,28 +25,4 @@ public class Table implements Serializable {
     private String tableName;
     public List<Column> columns;
 
-    public Table() {
-
-    }
-
-    public Table(String tableName, List<Column> columns) {
-        this.tableName = tableName;
-        this.columns = columns;
-    }
-
-    public String getTableName() {
-        return this.tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public List<Column> getColumns() {
-        return this.columns;
-    }
-
-    public void setColumns(List<Column> columns) {
-        this.columns = columns;
-    }
 }
