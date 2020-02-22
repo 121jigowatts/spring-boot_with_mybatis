@@ -12,6 +12,9 @@ import com.jigowatts.springboot_with_mybatis.domain.model.message.Database;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 import com.jigowatts.springboot_with_mybatis.util.json.JsonConverter;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * MessageResource
  */
@@ -24,34 +27,18 @@ public class MessageResource implements Serializable {
 
     JsonConverter<Database> jsonConverter = new JsonConverter<>();
 
+    @Getter
+    @Setter
     private int id;
+    
     @Size(max = 10)
+    @Getter
+    @Setter
     private String text;
+    
+    @Getter
+    @Setter
     private Database jsonbValue;
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return this.text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Database getJsonbValue() {
-        return this.jsonbValue;
-    }
-
-    public void setJsonbValue(Database jsonbValue) {
-        this.jsonbValue = jsonbValue;
-    }
 
     public Message toEntity() {
         Message entity = new Message();

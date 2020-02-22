@@ -5,10 +5,17 @@ import java.io.Serializable;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * column
  */
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Column implements Serializable {
     /**
      *
@@ -17,28 +24,4 @@ public class Column implements Serializable {
     private String columnName;
     private int sortOrder;
 
-    public Column() {
-
-    }
-
-    public Column(String columnName, int sortOrder) {
-        this.columnName = columnName;
-        this.sortOrder = sortOrder;
-    }
-
-    public String getColumnName() {
-        return this.columnName;
-    }
-
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public int getSortOrder() {
-        return this.sortOrder;
-    }
-
-    public void setSortOrder(int sortOrder) {
-        this.sortOrder = sortOrder;
-    }
 }
