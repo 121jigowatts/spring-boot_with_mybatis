@@ -39,3 +39,29 @@ docker-compose stop
 ```sh
 docker-compose down
 ```
+
+## SonarQubeによるコード静的解析
+
+### Dockerによる環境構築
+
+```sh
+mkdir sonar
+cd sonar
+vim docker-compose.yml
+```
+
+GitHubの[docker-compose.yml](https://github.com/SonarSource/docker-sonarqube/blob/master/example-compose-files/sq-with-postgres/docker-compose.yml)を参考に用意してコンテナ起動。
+
+```sh
+docker-compose up -d
+```
+
+[http://localhost:9000](http://localhost:9000)にアクセスし、プロジェクトを作成。ProjectKeyとTokenを取得。Tokenは環境変数に設定しておく。
+
+```sh
+# コード解析の実行
+./mvnw sonar:sonar \
+  -Dsonar.projectKey=getStarted \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=$SONAR_QUBE_TOKEN_GET_STARTED
+```
