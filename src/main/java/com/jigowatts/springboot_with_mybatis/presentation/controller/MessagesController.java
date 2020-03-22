@@ -11,16 +11,20 @@ import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
 import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResource;
 import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResourceQuery;
+import com.jigowatts.springboot_with_mybatis.util.converter.MessageResourceConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
@@ -32,8 +36,10 @@ public class MessagesController {
 
     @Autowired
     MessagesService messagesService;
+    @Autowired
+    MessageResourceConverter resourceConverter;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<MessageResource> searchMessages(@Valid MessageResourceQuery query) {
         MessageCriteria criteria = new MessageCriteria();
         criteria.setText(query.getText());
@@ -42,28 +48,24 @@ public class MessagesController {
 
         List<Message> messages = messagesService.findAllByCriteria(criteria);
 
-        return messages.stream().map(message -> {
-            MessageResource resource = new MessageResource();
-            return resource.toResource(message);
-        }).collect(Collectors.toList());
+        return messages.stream().map(message -> resourceConverter.toResource(message)).collect(Collectors.toList());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public MessageResource getMessageById(@PathVariable final int id) {
         Message message = messagesService.findById(id);
-        MessageResource resource = new MessageResource();
-        return resource.toResource(message);
+        return resourceConverter.toResource(message);
     }
 
-    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @GetMapping(value = "/count")
     public long getMessageCount() {
         return messagesService.count();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<MessageResource> postMessages(@Valid @RequestBody final MessageResource newResource,
             UriComponentsBuilder uriBuilder) {
-        Message newMessage = newResource.toEntity();
+        Message newMessage = resourceConverter.toEntity(newResource);
         messagesService.create(newMessage);
 
         URI resourceUri = uriBuilder.path("messages/{id}").buildAndExpand(newMessage.getId()).encode().toUri();
@@ -71,14 +73,14 @@ public class MessagesController {
         return ResponseEntity.created(resourceUri).build();
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void putMessages(@Valid @RequestBody final MessageResource resource) {
-        Message message = resource.toEntity();
+        Message message = resourceConverter.toEntity(resource);
         messagesService.update(message);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMessages(@PathVariable final int id) {
         messagesService.delete(id);

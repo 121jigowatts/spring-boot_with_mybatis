@@ -24,6 +24,6 @@ public class Database implements Serializable {
     private static final long serialVersionUID = 1L;
     private int key;
     private String databaseName;
-    List<Schema> schemas;
+    private List<Schema> schemas;
 
 }
