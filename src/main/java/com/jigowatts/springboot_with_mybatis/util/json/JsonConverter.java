@@ -5,9 +5,12 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.stereotype.Component;
+
 /**
  * JsonConverter
  */
+@Component
 public class JsonConverter<T> {
     private ObjectMapper objectMapper;
 

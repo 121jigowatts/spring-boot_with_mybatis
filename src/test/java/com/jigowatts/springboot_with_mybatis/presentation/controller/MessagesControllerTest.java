@@ -1,5 +1,6 @@
 package com.jigowatts.springboot_with_mybatis.presentation.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
 import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResource;
+import com.jigowatts.springboot_with_mybatis.util.converter.MessageResourceConverter;
 import com.jigowatts.springboot_with_mybatis.application.service.MessagesService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +39,9 @@ public class MessagesControllerTest {
 
     @Mock
     MessagesService messagesService;
+
+    @Mock
+    MessageResourceConverter resourceConverter;
 
     @InjectMocks
     MessagesController controller;
@@ -79,7 +84,9 @@ public class MessagesControllerTest {
     @Test
     public void postMessagesTest() throws JsonProcessingException, Exception {
         MessageResource request = new MessageResource();
-        request.setText("hoge");
+        Message newMessage = new Message();
+        newMessage.setText("hoge");
+        doReturn(newMessage).when(resourceConverter).toEntity(any());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/messages").content(mapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print())

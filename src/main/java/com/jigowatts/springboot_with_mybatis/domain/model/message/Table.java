@@ -23,6 +23,6 @@ public class Table implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     private String tableName;
-    public List<Column> columns;
+    private List<Column> columns;
 
 }
