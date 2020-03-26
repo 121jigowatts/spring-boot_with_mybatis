@@ -11,12 +11,14 @@ import com.jigowatts.springboot_with_mybatis.util.json.JsonConverter;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * MessageResourceConverter
  */
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MessageResourceConverter {
 
     private final JsonConverter<Database> jsonConverter;
@@ -30,7 +32,7 @@ public class MessageResourceConverter {
         try {
             json = jsonConverter.convertToString(db);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error("エラー；", e);
         }
         entity.setJsonbValue(json);
         return entity;
@@ -46,7 +48,7 @@ public class MessageResourceConverter {
             try {
                 db = jsonConverter.convertToObject(json, Database.class);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("エラー；", e);
             }
         }
         resource.setJsonbValue(db);
