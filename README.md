@@ -59,6 +59,13 @@ docker-compose up -d
 [http://localhost:9000](http://localhost:9000)にアクセスし、プロジェクトを作成。ProjectKeyとTokenを取得。Tokenは環境変数に設定しておく。
 
 ```sh
+#  coverageレポート作成
+./mvnw clean \
+ org.jacoco:jacoco-maven-plugin:prepare-agent install \
+ -Dmaven.test.failure.ignore=true \
+ test \
+ org.jacoco:jacoco-maven-plugin:report
+
 # コード解析の実行
 ./mvnw sonar:sonar \
   -Dsonar.projectKey=getStarted \
