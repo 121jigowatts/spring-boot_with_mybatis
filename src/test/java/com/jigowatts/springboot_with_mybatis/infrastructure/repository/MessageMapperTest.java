@@ -59,9 +59,7 @@ public class MessageMapperTest {
 
     @Test
     public void findOneTest() throws IOException {
-        Message expected = new Message();
-        expected.setId(1);
-        expected.setText("hello postgres");
+        Message expected = Message.builder().id(1).text("hello postgres").build();
         Database expected_db = this.initData_database;
         Schema expected_schema = expected_db.getSchemas().get(0);
         Table expected_table = expected_schema.getTables().get(0);
@@ -96,34 +94,23 @@ public class MessageMapperTest {
     public void findAllTest() {
         List<Message> expected = new ArrayList<Message>();
 
-        Message message01 = new Message();
-        message01.setId(1);
-        message01.setText("hello");
+        Message message01 = Message.builder().id(1).text("hello").build();
         expected.add(message01);
-        Message message02 = new Message();
-        message02.setId(2);
-        message02.setText("hoge");
+        Message message02 = Message.builder().id(2).text("hoge").build();
         expected.add(message02);
-        Message message03 = new Message();
-        message03.setId(3);
-        message03.setText("hana");
+        Message message03 = Message.builder().id(3).text("hana").build();
         expected.add(message03);
-        Message message04 = new Message();
-        message04.setId(4);
-        message04.setText("honey");
+        Message message04 = Message.builder().id(4).text("honey").build();
         expected.add(message04);
 
-        MessageCriteria criteria = new MessageCriteria();
-        criteria.setText("h");
+        MessageCriteria criteria = MessageCriteria.builder().text("h").build();
         List<Message> actual = messageMapper.findAllByCriteria(criteria);
         assertThat(actual.size()).isEqualTo(expected.size());
     }
 
     @Test
     public void createTest() {
-        Message message = new Message();
-        message.setText("fizz");
-        message.setJsonbValue("{}");
+        Message message = Message.builder().text("fizz").jsonbValue("{}").build();
         messageMapper.create(message);
 
         assertThat(messageMapper.count()).isEqualTo(2L);
@@ -131,10 +118,7 @@ public class MessageMapperTest {
 
     @Test
     public void updateTest() {
-        Message message = new Message();
-        message.setId(1);
-        message.setText("fizzbuzz");
-        message.setJsonbValue("{}");
+        Message message = Message.builder().id(1).text("fizzbuzz").jsonbValue("{}").build();
         boolean actual = messageMapper.update(message);
 
         assertThat(actual).isTrue();

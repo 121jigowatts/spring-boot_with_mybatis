@@ -40,17 +40,10 @@ public class MessageResourceConverterTest {
 
     @BeforeEach
     public void setup() {
-        this.message = new Message();
-        message.setId(1);
-        message.setText("hoge");
-        message.setJsonbValue("json");
-
-        this.messageResource = new MessageResource();
-        messageResource.setId(1);
-        messageResource.setText("hoge");
+        this.message = Message.builder().id(1).text("hoge").jsonbValue("json").build();
         List<Schema> schemas = List.of();
         this.db = new Database(1, "pg", schemas);
-        messageResource.setJsonbValue(db);
+        this.messageResource = MessageResource.builder().id(1).text("hoge").jsonbValue(db).build();
     }
 
     @Test

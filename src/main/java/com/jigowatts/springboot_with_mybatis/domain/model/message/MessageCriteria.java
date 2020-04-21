@@ -2,26 +2,24 @@ package com.jigowatts.springboot_with_mybatis.domain.model.message;
 
 import java.io.Serializable;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * MessageCriteria
  */
+@Builder
 public class MessageCriteria implements Serializable {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
     @Getter
-    @Setter
     private String text;
 
     @Getter
-    @Setter
     private String dbName;
 
-    @Setter
     private String schemaName;
 
     public String getSchemaName() {
