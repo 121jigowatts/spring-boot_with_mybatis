@@ -59,8 +59,7 @@ public class StubControllerTest {
 
     @Test
     public void validationErrorTest() throws JsonProcessingException, Exception {
-        MessageResource request = new MessageResource();
-        request.setText("12345678901");
+        MessageResource request = MessageResource.builder().text("12345678901").build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/messages")
                 .content(mapper.writeValueAsString(request))

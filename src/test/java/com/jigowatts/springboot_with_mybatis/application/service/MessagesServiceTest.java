@@ -35,17 +35,13 @@ public class MessagesServiceTest {
     public void findAllByCriteriaTest() {
         List<Message> expected = new ArrayList<Message>();
         // #1
-        Message resource01 = new Message();
-        resource01.setId(1);
-        resource01.setText("foo");
+        Message resource01 = Message.builder().id(1).text("foo").build();
         expected.add(resource01);
         // #2
-        Message resource02 = new Message();
-        resource02.setId(2);
-        resource02.setText("bar");
+        Message resource02 = Message.builder().id(2).text("bar").build();
         expected.add(resource02);
 
-        MessageCriteria criteria = new MessageCriteria();
+        MessageCriteria criteria = MessageCriteria.builder().build();
 
         doReturn(expected).when(messageRepository).findAllByCriteria(criteria);
 
@@ -60,9 +56,7 @@ public class MessagesServiceTest {
 
     @Test
     public void findByIdTest() {
-        Message expected = new Message();
-        expected.setId(1);
-        expected.setText("hoge");
+        Message expected = Message.builder().id(1).text("hoge").build();
         doReturn(expected).when(messageRepository).findOne(anyInt());
 
         Message actual = messagesService.findById(1);
@@ -80,9 +74,7 @@ public class MessagesServiceTest {
 
     @Test
     public void createTest() {
-        Message newMessage = new Message();
-        newMessage.setId(0);
-        newMessage.setText("hoge");
+        Message newMessage = Message.builder().id(0).text("hoge").build();
 
         doNothing().when(messageRepository).create(newMessage);
 
@@ -92,7 +84,7 @@ public class MessagesServiceTest {
 
     @Test
     public void updateTest() {
-        Message expected = new Message();
+        Message expected = Message.builder().build();
         doReturn(true).when(messageRepository).update(expected);
 
         Message actual = messagesService.update(expected);

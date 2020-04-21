@@ -33,10 +33,7 @@ public class MessageImplRepositoryTest {
 
     @Test
     public void findOneTest() {
-        Message expected = new Message();
-        expected.setId(1);
-        expected.setText("hello");
-        expected.setJsonbValue("{\"id\":\"001\"}");
+        Message expected = Message.builder().id(1).text("hello").jsonbValue("{\"id\":\"001\"}").build();
         doReturn(expected).when(messageMapper).findOne(1);
 
         Message actual = messageRepository.findOne(1);
@@ -59,29 +56,16 @@ public class MessageImplRepositoryTest {
     public void findAllTest() {
         List<Message> expected = new ArrayList<Message>();
 
-        Message message01 = new Message();
-        message01.setId(1);
-        message01.setText("hello");
-        message01.setJsonbValue("{\"id\":\"001\"}");
+        Message message01 = Message.builder().id(1).text("hello").jsonbValue("{\"id\":\"001\"}").build();
         expected.add(message01);
-        Message message02 = new Message();
-        message02.setId(2);
-        message02.setText("hoge");
-        message02.setJsonbValue("{\"id\":\"002\"}");
+        Message message02 = Message.builder().id(2).text("hoge").jsonbValue("{\"id\":\"002\"}").build();
         expected.add(message02);
-        Message message03 = new Message();
-        message03.setId(3);
-        message03.setText("hana");
-        message03.setJsonbValue("{\"id\":\"003\"}");
+        Message message03 = Message.builder().id(3).text("hana").jsonbValue("{\"id\":\"003\"}").build();
         expected.add(message03);
-        Message message04 = new Message();
-        message04.setId(4);
-        message04.setText("honey");
-        message04.setJsonbValue("{\"id\":\"004\"}");
+        Message message04 = Message.builder().id(4).text("honey").jsonbValue("{\"id\":\"004\"}").build();
         expected.add(message04);
 
-        MessageCriteria criteria = new MessageCriteria();
-        criteria.setText("h");
+        MessageCriteria criteria = MessageCriteria.builder().text("h").build();
         doReturn(expected).when(messageMapper).findAllByCriteria(criteria);
         List<Message> actual = messageRepository.findAllByCriteria(criteria);
         assertThat(actual.size()).isEqualTo(expected.size());
@@ -89,9 +73,7 @@ public class MessageImplRepositoryTest {
 
     @Test
     public void createTest() {
-        Message message = new Message();
-        message.setText("fizz");
-        message.setJsonbValue("{\"id\":\"001\"}");
+        Message message = Message.builder().text("fizz").jsonbValue("{\"id\":\"001\"}").build();
         doNothing().when(messageMapper).create(message);
 
         messageRepository.create(message);
@@ -101,10 +83,7 @@ public class MessageImplRepositoryTest {
 
     @Test
     public void updateTest() {
-        Message message = new Message();
-        message.setId(1);
-        message.setText("fizzbuzz");
-        message.setJsonbValue("{\"id\":\"001\"}");
+        Message message = Message.builder().id(1).text("fizzbuzz").jsonbValue("{\"id\":\"001\"}").build();
         doReturn(true).when(messageMapper).update(message);
 
         boolean actual = messageRepository.update(message);

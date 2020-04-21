@@ -24,9 +24,6 @@ public class MessageResourceConverter {
     private final JsonConverter<Database> jsonConverter;
 
     public Message toEntity(MessageResource resource) {
-        Message entity = new Message();
-        entity.setId(resource.getId());
-        entity.setText(resource.getText());
         Database db = resource.getJsonbValue();
         String json = "";
         try {
@@ -34,14 +31,10 @@ public class MessageResourceConverter {
         } catch (JsonProcessingException e) {
             log.error("エラー；", e);
         }
-        entity.setJsonbValue(json);
-        return entity;
+        return Message.builder().id(resource.getId()).text(resource.getText()).jsonbValue(json).build();
     }
 
     public MessageResource toResource(Message message) {
-        MessageResource resource = new MessageResource();
-        resource.setId(message.getId());
-        resource.setText(message.getText());
         Database db = null;
         String json = message.getJsonbValue();
         if (json != null) {
@@ -51,7 +44,6 @@ public class MessageResourceConverter {
                 log.error("エラー；", e);
             }
         }
-        resource.setJsonbValue(db);
-        return resource;
+        return MessageResource.builder().id(message.getId()).text(message.getText()).jsonbValue(db).build();
     }
 }

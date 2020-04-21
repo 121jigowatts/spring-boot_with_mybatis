@@ -55,7 +55,7 @@ public class MessagesControllerTest {
 
     @Test
     public void searchMessagesTest() throws Exception {
-        MessageCriteria criteria = new MessageCriteria();
+        MessageCriteria criteria = MessageCriteria.builder().build();
         doReturn(new ArrayList<MessageResource>()).when(messagesService).findAllByCriteria(criteria);
 
         MockHttpServletRequestBuilder getRequest = MockMvcRequestBuilders.get("/messages");
@@ -65,7 +65,7 @@ public class MessagesControllerTest {
 
     @Test
     public void getMessageByIdTest() throws Exception {
-        doReturn(new Message()).when(messagesService).findById(anyInt());
+        doReturn(Message.builder().build()).when(messagesService).findById(anyInt());
 
         MockHttpServletRequestBuilder getRequest = MockMvcRequestBuilders.get("/messages/1");
 
@@ -83,9 +83,8 @@ public class MessagesControllerTest {
 
     @Test
     public void postMessagesTest() throws JsonProcessingException, Exception {
-        MessageResource request = new MessageResource();
-        Message newMessage = new Message();
-        newMessage.setText("hoge");
+        MessageResource request = MessageResource.builder().build();
+        Message newMessage = Message.builder().text("hoge").build();
         doReturn(newMessage).when(resourceConverter).toEntity(any());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/messages").content(mapper.writeValueAsString(request))
@@ -95,9 +94,7 @@ public class MessagesControllerTest {
 
     @Test
     public void putMessagesTest() throws Exception {
-        MessageResource request = new MessageResource();
-        request.setId(1);
-        request.setText("foo");
+        MessageResource request = MessageResource.builder().id(1).text("foo").build();
 
         mockMvc.perform(MockMvcRequestBuilders.put("/messages").content(mapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print())
