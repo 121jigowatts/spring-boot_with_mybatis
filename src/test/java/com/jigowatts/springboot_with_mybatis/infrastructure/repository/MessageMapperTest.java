@@ -1,5 +1,6 @@
 package com.jigowatts.springboot_with_mybatis.infrastructure.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Column;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Database;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
@@ -13,10 +14,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +26,10 @@ import java.util.List;
 /**
  * MessageMapperTest
  */
+// @MybatisTestを付与するとデフォルトで組み込みデータベースを使用する設定となる
 @MybatisTest
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // @MybatisTestを付与するとデフォルトで組み込みデータベースを使用する設定となる
+// 組み込みデータベースを使いたくない場合は以下の設定を有効にする
+// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class MessageMapperTest {
 
     @Autowired
@@ -69,7 +72,8 @@ public class MessageMapperTest {
         assertThat(actual.getId()).isEqualTo(expected.getId());
         assertThat(actual.getText()).isEqualTo(expected.getText());
 
-        Database actual_db = jsonConverter.convertToObject(actual.getJsonbValue(), Database.class);
+        Database actual_db = jsonConverter.convertToObject(actual.getJsonbValue(),
+        Database.class);
         assertThat(actual_db.getKey()).isEqualTo(expected_db.getKey());
         assertThat(actual_db.getDatabaseName()).isEqualTo(expected_db.getDatabaseName());
         Schema actual_schema = actual_db.getSchemas().get(0);
@@ -110,10 +114,23 @@ public class MessageMapperTest {
 
     @Test
     public void createTest() {
-        Message message = Message.builder().text("fizz").jsonbValue("{}").build();
+        String jsonbValue = "{}";
+        try {
+            jsonbValue = jsonConverter.convertToString(initData_database);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            fail();
+        }
+        Message message = Message.builder().text("fizz").jsonbValue(jsonbValue).build();
         messageMapper.create(message);
 
-        assertThat(messageMapper.count()).isEqualTo(2L);
+        MessageCriteria criteria = MessageCriteria.builder().text("fizz").build();
+        List<Message> actual = messageMapper.findAllByCriteria(criteria);
+
+        assertThat(actual.size()).isEqualTo(1);
+
+        assertThat(actual.get(0).getText()).isEqualTo("fizz");
+
     }
 
     @Test
