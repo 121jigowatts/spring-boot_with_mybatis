@@ -26,7 +26,7 @@ import java.util.List;
  * MessageMapperTest
  */
 @MybatisTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // @MybatisTestを付与するとデフォルトで組み込みデータベースを使用する設定となる
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // @MybatisTestを付与するとデフォルトで組み込みデータベースを使用する設定となる
 public class MessageMapperTest {
 
     @Autowired
