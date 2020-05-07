@@ -51,7 +51,7 @@ public class MessagesController {
 
     @GetMapping(value = "/{id}")
     public MessageResource getMessageById(@PathVariable final int id) {
-        Message message = messagesService.findById(id);
+        Message message = messagesService.findById(id).orElseThrow(() -> new NotFoundException("Message is not found."));
         return resourceConverter.toResource(message);
     }
 

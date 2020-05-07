@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
 import com.jigowatts.springboot_with_mybatis.presentation.resource.MessageResource;
 import com.jigowatts.springboot_with_mybatis.util.converter.MessageResourceConverter;
+import com.jigowatts.springboot_with_mybatis.aop.ApiExceptionHandler;
 import com.jigowatts.springboot_with_mybatis.application.service.MessagesService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
@@ -49,7 +52,8 @@ public class MessagesControllerTest {
     @BeforeEach
     public void setupMockMvc() {
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ApiExceptionHandler())
+                .build();
         mapper = new ObjectMapper();
     }
 
@@ -65,11 +69,21 @@ public class MessagesControllerTest {
 
     @Test
     public void getMessageByIdTest() throws Exception {
-        doReturn(Message.builder().build()).when(messagesService).findById(anyInt());
+        doReturn(Optional.ofNullable(Message.builder().build())).when(messagesService).findById(anyInt());
 
         MockHttpServletRequestBuilder getRequest = MockMvcRequestBuilders.get("/messages/1");
 
         mockMvc.perform(getRequest).andDo(print()).andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
+    public void getMessageByIdNoDataTest() throws Exception {
+        doReturn(Optional.empty()).when(messagesService).findById(anyInt());
+
+        MockHttpServletRequestBuilder getRequest = MockMvcRequestBuilders.get("/messages/0");
+
+        mockMvc.perform(getRequest).andDo(print()).andExpect(status().isNotFound())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Message is not found.")).andReturn();
     }
 
     @Test

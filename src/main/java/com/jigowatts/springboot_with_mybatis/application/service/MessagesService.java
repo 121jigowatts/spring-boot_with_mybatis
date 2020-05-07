@@ -5,6 +5,7 @@ import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteri
 import com.jigowatts.springboot_with_mybatis.infrastructure.repository.MessageImplRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class MessagesService {
         return messageRepository.findAllByCriteria(criteria);
     }
 
-    public Message findById(int id) {
+    public Optional<Message> findById(int id) {
         return messageRepository.findOne(id);
     }
 

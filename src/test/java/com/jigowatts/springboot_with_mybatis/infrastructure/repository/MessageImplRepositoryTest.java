@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
@@ -17,6 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * MessageImplRepositoryTest
@@ -34,13 +36,16 @@ public class MessageImplRepositoryTest {
     @Test
     public void findOneTest() {
         Message expected = Message.builder().id(1).text("hello").jsonbValue("{\"id\":\"001\"}").build();
-        doReturn(expected).when(messageMapper).findOne(1);
+        Optional<Message> optMessage = Optional.ofNullable(expected);
+        doReturn(optMessage).when(messageMapper).findOne(1);
 
-        Message actual = messageRepository.findOne(1);
+        Optional<Message> optActual = messageRepository.findOne(1);
 
-        assertThat(actual.getId()).isEqualTo(expected.getId());
-        assertThat(actual.getText()).isEqualTo(expected.getText());
-        assertThat(actual.getJsonbValue()).isEqualTo(expected.getJsonbValue());
+        optActual.ifPresentOrElse(actual -> {
+            assertThat(actual.getId()).isEqualTo(expected.getId());
+            assertThat(actual.getText()).isEqualTo(expected.getText());
+            assertThat(actual.getJsonbValue()).isEqualTo(expected.getJsonbValue());
+        }, () -> fail());
     }
 
     @Test
