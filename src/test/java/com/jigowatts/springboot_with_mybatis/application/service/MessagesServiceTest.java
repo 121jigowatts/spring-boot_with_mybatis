@@ -1,6 +1,7 @@
 package com.jigowatts.springboot_with_mybatis.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -9,6 +10,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
@@ -57,10 +59,11 @@ public class MessagesServiceTest {
     @Test
     public void findByIdTest() {
         Message expected = Message.builder().id(1).text("hoge").build();
-        doReturn(expected).when(messageRepository).findOne(anyInt());
+        Optional<Message> optMessage = Optional.ofNullable(expected);
+        doReturn(optMessage).when(messageRepository).findOne(anyInt());
 
-        Message actual = messagesService.findById(1);
-        assertEquals(expected, actual);
+        Optional<Message> optActual = messagesService.findById(1);
+        optActual.ifPresentOrElse(actual -> assertEquals(expected,actual), () -> fail());
     }
 
     @Test

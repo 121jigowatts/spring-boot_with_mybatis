@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.jigowatts.springboot_with_mybatis.presentation.controller.ApiError;
+import com.jigowatts.springboot_with_mybatis.presentation.controller.NotFoundException;
 import com.jigowatts.springboot_with_mybatis.presentation.controller.ResourceNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final Map<Class<? extends Exception>, String> messageMappings = Collections
             .unmodifiableMap(new LinkedHashMap<Class<? extends Exception>, String>() {
-                /**
-                 *
-                 */
+
                 private static final long serialVersionUID = 1L;
 
                 {
@@ -46,6 +45,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleSystemException(Exception ex, WebRequest request) {
         ApiError apiError = createApiError(ex, "System error is occurred.");
         return super.handleExceptionInternal(ex, apiError, null, HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleMyException(NotFoundException ex, WebRequest request) {
+        ApiError apiError = createApiError(ex, ex.getMessage());
+        return super.handleExceptionInternal(ex, apiError, null, HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)

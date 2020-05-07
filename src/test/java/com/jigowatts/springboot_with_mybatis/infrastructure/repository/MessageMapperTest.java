@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * MessageMapperTest
@@ -61,28 +62,35 @@ public class MessageMapperTest {
     }
 
     @Test
-    public void findOneTest() throws IOException {
+    public void findOneTest() {
         Message expected = Message.builder().id(1).text("hello postgres").build();
         Database expected_db = this.initData_database;
         Schema expected_schema = expected_db.getSchemas().get(0);
         Table expected_table = expected_schema.getTables().get(0);
         Column expected_column = expected_table.getColumns().get(0);
-        Message actual = messageMapper.findOne(1);
+        Optional<Message> optActual = messageMapper.findOne(1);
 
-        assertThat(actual.getId()).isEqualTo(expected.getId());
-        assertThat(actual.getText()).isEqualTo(expected.getText());
+        optActual.ifPresentOrElse(actual -> {
+            assertThat(actual.getId()).isEqualTo(expected.getId());
+            assertThat(actual.getText()).isEqualTo(expected.getText());
 
-        Database actual_db = jsonConverter.convertToObject(actual.getJsonbValue(),
-        Database.class);
-        assertThat(actual_db.getKey()).isEqualTo(expected_db.getKey());
-        assertThat(actual_db.getDatabaseName()).isEqualTo(expected_db.getDatabaseName());
-        Schema actual_schema = actual_db.getSchemas().get(0);
-        assertThat(actual_schema.getSchemaName()).isEqualTo(expected_schema.getSchemaName());
-        Table actual_table = actual_schema.getTables().get(0);
-        assertThat(actual_table.getTableName()).isEqualTo(expected_table.getTableName());
-        Column actual_column = actual_table.getColumns().get(0);
-        assertThat(actual_column.getColumnName()).isEqualTo(expected_column.getColumnName());
-        assertThat(actual_column.getSortOrder()).isEqualTo(expected_column.getSortOrder());
+            Database actual_db;
+            try {
+                actual_db = jsonConverter.convertToObject(actual.getJsonbValue(), Database.class);
+                assertThat(actual_db.getKey()).isEqualTo(expected_db.getKey());
+                assertThat(actual_db.getDatabaseName()).isEqualTo(expected_db.getDatabaseName());
+                Schema actual_schema = actual_db.getSchemas().get(0);
+                assertThat(actual_schema.getSchemaName()).isEqualTo(expected_schema.getSchemaName());
+                Table actual_table = actual_schema.getTables().get(0);
+                assertThat(actual_table.getTableName()).isEqualTo(expected_table.getTableName());
+                Column actual_column = actual_table.getColumns().get(0);
+                assertThat(actual_column.getColumnName()).isEqualTo(expected_column.getColumnName());
+                assertThat(actual_column.getSortOrder()).isEqualTo(expected_column.getSortOrder());
+            } catch (IOException e) {
+                fail();
+            }
+
+        }, () -> fail());
     }
 
     @Test

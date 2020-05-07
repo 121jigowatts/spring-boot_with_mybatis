@@ -1,6 +1,7 @@
 package com.jigowatts.springboot_with_mybatis.infrastructure.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.message.Message;
 import com.jigowatts.springboot_with_mybatis.domain.model.message.MessageCriteria;
@@ -19,7 +20,7 @@ public class MessageImplRepository implements MessageRepository {
     MessageMapper messageMapper;
 
     @Override
-    public Message findOne(int id) {
+    public Optional<Message> findOne(int id) {
         return messageMapper.findOne(id);
     }
 
