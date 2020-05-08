@@ -1,0 +1,84 @@
+GET http://localhost:8080/messages HTTP/1.1
+
+###
+GET http://localhost:8080/messages?text=h HTTP/1.1
+
+###
+GET http://localhost:8080/messages?text=h&database=Po&schema=schema01 HTTP/1.1
+
+###
+GET http://localhost:8080/messages?text=f HTTP/1.1
+
+###
+GET http://localhost:8080/messages/1 HTTP/1.1
+
+###
+GET http://localhost:8080/messages/0 HTTP/1.1
+
+###
+GET http://localhost:8080/messages/count HTTP/1.1
+
+###
+POST http://localhost:8080/messages HTTP/1.1
+Content-Type: application/json
+
+{
+    "text": "foo",
+    "jsonb_value": {"key":2, "database_name": "MySQL", "schemas": [{"schema_name":"hoge", "tables":[{"table_name":"orders","columns":[{"column_name":"id","sort_order":1}]}]}]}
+}
+
+###
+PUT http://localhost:8080/messages HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "text": "bar",
+    "jsonb_value": {"key": 2, "database_name": "MySQL", "schemas": []}
+}
+
+###
+DELETE http://localhost:8080/messages/2 HTTP/1.1
+
+### Systemエラーハンドリング
+GET http://localhost:8080/messages/runtimeexception HTTP/1.1
+
+### 404エラーハンドリング
+GET http://localhost:8080/messages/notfound HTTP/1.1
+
+### 405エラーハンドリング
+POST http://localhost:8080/messages/count HTTP/1.1
+
+### 400エラーハンドリング
+PUT http://localhost:8080/messages HTTP/1.1
+Content-Type: application/json
+
+{
+    {a=1
+}
+
+### 入力チェック例外
+POST http://localhost:8080/messages HTTP/1.1
+Content-Type: application/json
+
+{
+    "text": "12345678901"
+}
+
+
+### 入力チェック(正常系)
+
+GET http://localhost:8080/validation?productCode=abc123ABC&productName=1234567890&targetDay=10 HTTP/1.1
+
+### 入力チェック例外(Size)
+
+GET http://localhost:8080/validation?productCode=abc123&productName=12345678901&targetDay=10 HTTP/1.1
+
+### 入力チェック例外(Pattern)
+
+GET http://localhost:8080/validation?productCode=abc漢字123&productName=1234567890&targetDay=10 HTTP/1.1
+
+###
+GET http://localhost:8080/users/1 HTTP/1.1
+
+###
