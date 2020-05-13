@@ -30,6 +30,33 @@ INSERT INTO messages (
   )
 );
 
+CREATE TABLE IF NOT EXISTS orders (
+  order_number          VARCHAR(20),
+  order_detail_id       VARCHAR(20),
+  PRIMARY KEY(order_number, order_detail_id)
+);
+
+CREATE TABLE IF NOT EXISTS order_details (
+  order_detail_id       VARCHAR(20) PRIMARY KEY,
+  quantity              int,
+  unit_price            int,
+  product_id            VARCHAR(20)
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  product_id            VARCHAR(20) PRIMARY KEY,
+  product_name          VARCHAR(20)
+);
+
 INSERT INTO users (id,name) VALUES ('1','Alice');
+
+INSERT INTO products (product_id,product_name) VALUES ('prd01','productName01');
+INSERT INTO products (product_id,product_name) VALUES ('prd02','productName02');
+
+INSERT INTO order_details (order_detail_id,quantity,unit_price,product_id) VALUES ('detail001',1,100,'prd01');
+INSERT INTO order_details (order_detail_id,quantity,unit_price,product_id) VALUES ('detail002',2,200,'prd02');
+
+INSERT INTO orders (order_number,order_detail_id) VALUES ('oder001','detail001');
+INSERT INTO orders (order_number,order_detail_id) VALUES ('oder001','detail002');
 
 EOSQL
