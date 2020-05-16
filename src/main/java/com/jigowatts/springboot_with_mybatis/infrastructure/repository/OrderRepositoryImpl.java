@@ -1,5 +1,7 @@
 package com.jigowatts.springboot_with_mybatis.infrastructure.repository;
 
+import java.util.Optional;
+
 import com.jigowatts.springboot_with_mybatis.domain.model.order.Order;
 import com.jigowatts.springboot_with_mybatis.domain.model.order.OrderDetail;
 import com.jigowatts.springboot_with_mybatis.domain.model.order.OrderRepository;
@@ -7,6 +9,7 @@ import com.jigowatts.springboot_with_mybatis.infrastructure.entity.OrderDetails;
 import com.jigowatts.springboot_with_mybatis.infrastructure.entity.OrdersKey;
 import com.jigowatts.springboot_with_mybatis.infrastructure.mapper.OrderDetailsMapper;
 import com.jigowatts.springboot_with_mybatis.infrastructure.mapper.OrdersMapper;
+import com.jigowatts.springboot_with_mybatis.infrastructure.mapper.extensions.OrdersExtensionsMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,8 +24,15 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Autowired
     OrderDetailsMapper orderDetailsMapper;
+    @Autowired
+    OrdersExtensionsMapper ordersExtensionsMapper;
 
     private String orderNumber;
+
+    @Override
+    public Optional<Order> findByOrderNumber(String orderNumber) {
+        return ordersExtensionsMapper.findByOrderNumber(orderNumber);
+    }
 
     @Override
     public String create(Order order) {

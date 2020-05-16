@@ -1,4 +1,4 @@
-package com.jigowatts.springboot_with_mybatis.infrastructure.repository;
+package com.jigowatts.springboot_with_mybatis.infrastructure.mapper.extensions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -15,9 +15,9 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @MybatisTest
-public class OrderMapperTest {
+public class OrdersExtensionsMapperTest {
     @Autowired
-    OrderMapper target;
+    OrdersExtensionsMapper target;
 
     @Test
     @DisplayName("findById")

@@ -1,5 +1,7 @@
 package com.jigowatts.springboot_with_mybatis.application.service;
 
+import java.util.Optional;
+
 import com.jigowatts.springboot_with_mybatis.domain.model.order.Order;
 import com.jigowatts.springboot_with_mybatis.domain.model.order.OrderRepository;
 
@@ -13,8 +15,13 @@ public class OrdersServiceImpl implements OrdersService {
     OrderRepository orderRepository;
 
     @Override
+    public Optional<Order> findByOrderNumber(String orderNumber) {
+        return orderRepository.findByOrderNumber(orderNumber);
+    }
+
+    @Override
     public String create(Order order) {
         return orderRepository.create(order);
     }
-    
+
 }
