@@ -40,6 +40,30 @@ docker-compose stop
 docker-compose down
 ```
 
+## MavenによるMyBatis Generatorの実行
+
+mapperとentityを自動生成する。overwireteパラメータで既存のJavaファイルを上書き出力できる。
+
+```sh
+./mvnw -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
+
+`pom.xml`に記載された下記箇所をコメントアウトすることで`./mvnw install`により随時実行されるようにすることも可能。
+
+```xml
+<executions>
+  <execution>
+    <id>Generate MyBatis Artifacts</id>
+    <goals>
+      <goal>generate</goal>
+    </goals>
+    <configuration>
+      <overwrite>true</overwrite>
+    </configuration>
+  </execution>
+</executions>
+```
+
 ## SonarQubeによるコード静的解析
 
 ### Dockerによる環境構築
