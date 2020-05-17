@@ -76,6 +76,16 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -111,6 +121,32 @@
 						<version>1.0</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.14.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<schemaLanguage>WSDL</schemaLanguage>
+					<generatePackage>com.jigowatts.springboot_with_mybatis.infrastructure.wsdl</generatePackage>
+					<schemas>
+						<schema>
+							<fileset>
+								<directory>${basedir}/src/main/resources/wsdl</directory>
+								<includes>
+									<include>*.wsdl</include>
+								</includes>
+							</fileset>
+						</schema>
+					</schemas>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
