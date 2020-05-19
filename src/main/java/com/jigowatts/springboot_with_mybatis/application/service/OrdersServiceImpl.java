@@ -22,13 +22,12 @@ public class OrdersServiceImpl implements OrdersService {
     public Optional<Order> findByOrderNumber(String orderNumber) {
         Optional<Order> order = orderRepository.findByOrderNumber(orderNumber);
         order.ifPresent(o -> {
-            // CustomerId取得
-            String customerId = "X3";
+            Customer c = o.getCustomer();
+            String customerId = c.getCustomerId();
             Optional<Customer> customer = customerRepository.findById(customerId);
-            // orderにセット
-            // return
+            customer.ifPresent(o::setCustomer);
         });
-        return orderRepository.findByOrderNumber(orderNumber);
+        return order;
     }
 
     @Override
