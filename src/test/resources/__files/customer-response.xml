@@ -1,0 +1,12 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns2:getCustomerResponse xmlns:ns2="http://example.com/soap_server">
+            <ns2:customer>
+                <ns2:id>X4</ns2:id>
+                <ns2:name>Emmet</ns2:name>
+                <ns2:address>California</ns2:address>
+            </ns2:customer>
+        </ns2:getCustomerResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
