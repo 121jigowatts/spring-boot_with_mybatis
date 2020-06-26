@@ -9,6 +9,8 @@ import static org.mockito.Mockito.doReturn;
 import java.util.List;
 import java.util.Optional;
 
+import com.jigowatts.springboot_with_mybatis.domain.model.customer.Customer;
+import com.jigowatts.springboot_with_mybatis.domain.model.customer.CustomerRepository;
 import com.jigowatts.springboot_with_mybatis.domain.model.order.Order;
 import com.jigowatts.springboot_with_mybatis.domain.model.order.OrderDetail;
 import com.jigowatts.springboot_with_mybatis.domain.model.order.OrderRepository;
@@ -25,22 +27,30 @@ public class OrdersServiceImplTest {
     OrdersServiceImpl target;
     @Mock
     OrderRepository orderRepository;
+    @Mock
+    CustomerRepository customerRepository;
 
     @Test
     @DisplayName("Order取得")
     public void findByOrderNumberTest() {
         String orderNumber = "orderNumber";
+        String customerId = "X1";
         List<OrderDetail> orderDetails = List.of(OrderDetail.builder().build());
-        Order expected = Order.builder().orderNumber("orderNumber").orderDetails(orderDetails).build();
+        Order expected = Order.builder().orderNumber("orderNumber").orderDetails(orderDetails)
+                .customer(Customer.builder().customerId(customerId).build()).build();
         Optional<Order> returnedOrder = Optional.ofNullable(expected);
-
+        Customer expectedCustomer = Customer.builder().customerId(customerId).customerName("customerName")
+                .address("address").build();
+        Optional<Customer> customer = Optional.ofNullable(expectedCustomer);
         doReturn(returnedOrder).when(orderRepository).findByOrderNumber(orderNumber);
+        doReturn(customer).when(customerRepository).findById(customerId);
 
         Optional<Order> optActual = target.findByOrderNumber(orderNumber);
 
         optActual.ifPresentOrElse(actual -> {
             assertThat(actual.getOrderNumber()).isEqualTo(expected.getOrderNumber());
             assertThat(actual.getOrderDetails()).isEqualTo(expected.getOrderDetails());
+            assertThat(actual.getCustomer()).isEqualTo(expectedCustomer);
         }, () -> {
             fail();
         });
