@@ -1,6 +1,10 @@
 package com.jigowatts.springboot_with_mybatis.presentation.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+//import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.*;
+//import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,15 +44,17 @@ public class StubControllerTest {
         AbstractPreAuthenticatedProcessingFilter apiKeyFilter = new ApiKeyAuthFilter();
         apiKeyFilter.setAuthenticationManager(authenticationManager);
 
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).addFilter(apiKeyFilter).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context).addFilter(apiKeyFilter).apply(springSecurity())
+                .build();
         mapper = new ObjectMapper();
     }
 
     @Test
     public void globalErrorTest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/mock/global-error")).andDo(print())
-                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.INTERNAL_SERVER_ERROR.value()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/mock/global-error").header("X-API-Key", "1234-5678-90ab"))
+                .andDo(print()).andExpect(MockMvcResultMatchers.status().is(HttpStatus.INTERNAL_SERVER_ERROR.value()))
+                .andExpect(authenticated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("System error is occurred.")).andExpect(
                         MockMvcResultMatchers.jsonPath("$.documentation_url").value("http://example.com/api/errors"));
 
@@ -57,8 +63,9 @@ public class StubControllerTest {
     @Test
     public void notFoundTest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/mock/not-found")).andDo(print())
-                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.NOT_FOUND.value()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/mock/not-found").header("X-API-Key", "1234-5678-90ab"))
+                .andDo(print()).andExpect(MockMvcResultMatchers.status().is(HttpStatus.NOT_FOUND.value()))
+                .andExpect(authenticated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Resource is not found.")).andExpect(
                         MockMvcResultMatchers.jsonPath("$.documentation_url").value("http://example.com/api/errors"));
 
@@ -69,9 +76,17 @@ public class StubControllerTest {
         MessageResource request = MessageResource.builder().text("12345678901").build();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/messages").content(mapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andDo(print())
-                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()))
+                .header("X-API-Key", "1234-5678-90ab").contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value())).andExpect(authenticated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Request value is invalid.")).andExpect(
                         MockMvcResultMatchers.jsonPath("$.documentation_url").value("http://example.com/api/errors"));
+    }
+
+    @Test
+    public void authenticationFailedTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/mock/not-found").header("X-API-Key", "bad-key")).andDo(print())
+                .andExpect(unauthenticated())
+                .andExpect(MockMvcResultMatchers.status().is(HttpStatus.FORBIDDEN.value()));
     }
 }
