@@ -1,6 +1,5 @@
 package com.jigowatts.springboot_with_mybatis.aop;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,33 +29,29 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     MessageSource messageSource;
 
-    private final Map<Class<? extends Exception>, String> messageMappings = Collections
-            .unmodifiableMap(new LinkedHashMap<Class<? extends Exception>, String>() {
+    private static final Map<Class<? extends Exception>, String> messageMappings = new LinkedHashMap<>();
 
-                private static final long serialVersionUID = 1L;
-
-                {
-                    put(HttpMessageNotReadableException.class, "Request body is invalid.");
-                    put(MethodArgumentNotValidException.class, "Request value is invalid.");
-                }
-            });
+    static {
+        messageMappings.put(HttpMessageNotReadableException.class, "Request body is invalid.");
+        messageMappings.put(MethodArgumentNotValidException.class, "Request value is invalid.");
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleSystemException(Exception ex, WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
         ApiError apiError = createApiError(ex, "System error is occurred.");
-        return super.handleExceptionInternal(ex, apiError, null, HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return super.handleExceptionInternal(ex, apiError, headers, HttpStatus.INTERNAL_SERVER_ERROR, request);
+
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleMyException(NotFoundException ex, WebRequest request) {
-        ApiError apiError = createApiError(ex, ex.getMessage());
-        return super.handleExceptionInternal(ex, apiError, null, HttpStatus.NOT_FOUND, request);
+        return this.handleExceptionInternal(ex, null, null, HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleMyException(ResourceNotFoundException ex, WebRequest request) {
-        ApiError apiError = createApiError(ex, ex.getMessage());
-        return super.handleExceptionInternal(ex, apiError, null, HttpStatus.NOT_FOUND, request);
+        return this.handleExceptionInternal(ex, null, null, HttpStatus.NOT_FOUND, request);
     }
 
     @Override
