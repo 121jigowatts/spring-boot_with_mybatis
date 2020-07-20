@@ -8,12 +8,12 @@ public class ApiKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
 
     @Override
     protected Object getPreAuthenticatedPrincipal(HttpServletRequest request) {
-        return request.getHeader("X-Api-Key");
+        return "";
     }
 
     @Override
     protected Object getPreAuthenticatedCredentials(HttpServletRequest request) {
-        return null;
+        return request.getHeader("X-Api-Key");
     }
 
 }
