@@ -2,7 +2,7 @@
 set -e
 
 # psql -U <USER_NAME> <DB_NAME>
-psql -U admin admin << EOSQL
+psql -U admin -d mydb << EOSQL
 CREATE TABLE IF NOT EXISTS messages (
   id          SERIAL PRIMARY KEY,
   text        VARCHAR(255),
