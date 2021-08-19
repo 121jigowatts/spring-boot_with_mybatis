@@ -1,0 +1,25 @@
+id: 1
+address:
+  id: 1
+  zip: 12345
+  street: f.street
+  city: sand
+  country: EOL
+customers:
+  - {
+    customerId: 1,
+    customerName: customer1
+    }
+  - {
+    customerId: 2,
+    customerName: customer2
+    }
+items:
+  - !glasses {
+    id: 1,
+    lens: blue
+    }
+  - !bag {
+    id: 2,
+    capacity: L
+    }
