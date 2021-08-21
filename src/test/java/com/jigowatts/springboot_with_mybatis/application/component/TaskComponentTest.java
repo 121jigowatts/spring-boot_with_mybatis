@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.jigowatts.springboot_with_mybatis.domain.model.task.Task;
@@ -32,6 +34,23 @@ public class TaskComponentTest {
 
     @BeforeEach
     void setup() {
+    }
+
+    @Test
+    public void test() throws IOException {
+
+        Task expected = Task.builder().id("1").number(101).name("Homework")
+                .start(LocalDateTime.of(2021, 8, 20, 16, 30, 0)).end(null).expire(LocalDate.of(2021, 8, 22))
+                .completed(false).build();
+
+        var path = Paths.get("src/test/resources/fixture/task/getByIdTest_not_completed.yml");
+        try (InputStream io = Files.newInputStream(path)) {
+            Constructor constructor = new ExtensionConstructorBase(Task.class);
+            Yaml yaml = new Yaml(constructor);
+            Task actual = yaml.load(io);
+
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        }
     }
 
     @Test
