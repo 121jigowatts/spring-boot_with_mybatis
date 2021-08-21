@@ -30,9 +30,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-/**
- * MessagesServiceTest
- */
 @SpringBootTest
 public class ComplexDataServiceTest {
     @InjectMocks
@@ -48,7 +45,7 @@ public class ComplexDataServiceTest {
 
     @BeforeEach
     void setup() {
-        yamlLoader = new YamlLoader<>();
+        yamlLoader = new YamlLoader<>(new ComplexDataConstructor());
     }
 
     @Test
@@ -60,7 +57,7 @@ public class ComplexDataServiceTest {
 
         var yml = "fixture/complexdata/findByIdTest.yml";
 
-        var expected = yamlLoader.load(yml, new ComplexDataConstructor());
+        var expected = yamlLoader.load(yml);
 
         var actual = target.findById(id);
 

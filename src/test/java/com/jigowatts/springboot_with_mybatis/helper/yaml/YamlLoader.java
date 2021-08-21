@@ -11,16 +11,21 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
 public class YamlLoader<T> {
+    private Constructor constructor;
     private static final String BASE_PATH = "src/test/resources/";
 
-    public T load(String yml) throws IOException {
-        return this.load(yml, new ExtensionConstructorBase());
+    public YamlLoader() {
+        this.constructor = new ExtensionConstructorBase();
     }
 
-    public T load(String yml, Constructor constructor) throws IOException {
+    public YamlLoader(Constructor constructor) {
+        this.constructor = constructor;
+    }
+
+    public T load(String yml) throws IOException {
         var path = Paths.get(BASE_PATH + yml);
         try (InputStream io = Files.newInputStream(path)) {
-            return new Yaml(constructor).load(io);
+            return new Yaml(this.constructor).load(io);
         }
     }
 }
