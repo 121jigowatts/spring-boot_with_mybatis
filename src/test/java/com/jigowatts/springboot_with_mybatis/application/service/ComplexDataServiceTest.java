@@ -20,15 +20,19 @@ import com.jigowatts.springboot_with_mybatis.domain.model.complexdata.ComplexDat
 import com.jigowatts.springboot_with_mybatis.domain.model.customer.Customer;
 import com.jigowatts.springboot_with_mybatis.domain.model.item.Bag;
 import com.jigowatts.springboot_with_mybatis.domain.model.item.Glasses;
+import com.jigowatts.springboot_with_mybatis.helper.log.AssertLogHelper;
 import com.jigowatts.springboot_with_mybatis.helper.yaml.YamlLoader;
 import com.jigowatts.springboot_with_mybatis.helper.yaml.constructor.ComplexDataConstructor;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import ch.qos.logback.classic.Level;
 
 @SpringBootTest
 public class ComplexDataServiceTest {
@@ -42,10 +46,17 @@ public class ComplexDataServiceTest {
     private ItemComponent itemComponent;
 
     private YamlLoader<ComplexData> yamlLoader;
+    private AssertLogHelper assertLogHelper;
 
     @BeforeEach
     void setup() {
         yamlLoader = new YamlLoader<>(new ComplexDataConstructor());
+        assertLogHelper = new AssertLogHelper(ComplexDataService.class.getName());
+    }
+
+    @AfterEach
+    void tearDown() {
+        assertLogHelper.detachAppender();
     }
 
     @Test
@@ -62,6 +73,12 @@ public class ComplexDataServiceTest {
         var actual = target.findById(id);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        assertLogHelper.assertContains("[INFO]ID: 1");
+        assertLogHelper.assertContains("[INFO]ID: 1", Level.INFO);
+        assertLogHelper.assertContains("[WARN]ID: 1");
+        assertLogHelper.assertContains("[WARN]ID: 1", Level.WARN);
+        assertLogHelper.assertContains("[ERROR]ID: 1");
+        assertLogHelper.assertContains("[ERROR]ID: 1", Level.ERROR);
     }
 
     @Test
