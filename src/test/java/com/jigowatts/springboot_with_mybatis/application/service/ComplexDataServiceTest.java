@@ -20,23 +20,19 @@ import com.jigowatts.springboot_with_mybatis.domain.model.complexdata.ComplexDat
 import com.jigowatts.springboot_with_mybatis.domain.model.customer.Customer;
 import com.jigowatts.springboot_with_mybatis.domain.model.item.Bag;
 import com.jigowatts.springboot_with_mybatis.domain.model.item.Glasses;
+import com.jigowatts.springboot_with_mybatis.helper.log.AssertLogHelper;
 import com.jigowatts.springboot_with_mybatis.helper.yaml.YamlLoader;
 import com.jigowatts.springboot_with_mybatis.helper.yaml.constructor.ComplexDataConstructor;
 
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 
 @SpringBootTest
 public class ComplexDataServiceTest {
@@ -50,22 +46,17 @@ public class ComplexDataServiceTest {
     private ItemComponent itemComponent;
 
     private YamlLoader<ComplexData> yamlLoader;
-    private Logger logger;
-    private ListAppender<ILoggingEvent> listAppender;
+    private AssertLogHelper assertLogHelper;
 
     @BeforeEach
     void setup() {
         yamlLoader = new YamlLoader<>(new ComplexDataConstructor());
-
-        logger = (Logger) LoggerFactory.getLogger(ComplexDataService.class.getName());
-        listAppender = new ListAppender<>();
-        listAppender.start();
-        logger.addAppender(listAppender);
+        assertLogHelper = new AssertLogHelper(ComplexDataService.class.getName());
     }
 
     @AfterEach
     void tearDown() {
-        logger.detachAppender(listAppender);
+        assertLogHelper.detachAppender();
     }
 
     @Test
@@ -82,8 +73,12 @@ public class ComplexDataServiceTest {
         var actual = target.findById(id);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-        assertThat(listAppender.list).extracting(ILoggingEvent::getFormattedMessage, ILoggingEvent::getLevel)
-                .containsExactly(Tuple.tuple("[Params]ID: 1", Level.INFO));
+        assertLogHelper.assertContains("[INFO]ID: 1");
+        assertLogHelper.assertContains("[INFO]ID: 1", Level.INFO);
+        assertLogHelper.assertContains("[WARN]ID: 1");
+        assertLogHelper.assertContains("[WARN]ID: 1", Level.WARN);
+        assertLogHelper.assertContains("[ERROR]ID: 1");
+        assertLogHelper.assertContains("[ERROR]ID: 1", Level.ERROR);
     }
 
     @Test

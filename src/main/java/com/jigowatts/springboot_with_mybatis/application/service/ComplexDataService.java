@@ -22,7 +22,10 @@ public class ComplexDataService {
     private final ItemComponent itemComponent;
 
     public ComplexData findById(String id) {
-        log.info("[Params]ID: {}", id);
+        log.debug("[DEBUG]ID: {}", id);
+        log.info("[INFO]ID: {}", id);
+        log.warn("[WARN]ID: {}", id);
+        log.error("[ERROR]ID: {}", id);
         return ComplexData.builder().id(id).address(addressComponent.getBy(id)).customers(customerComponent.getBy(id))
                 .items(itemComponent.getBy(id)).build();
     }
